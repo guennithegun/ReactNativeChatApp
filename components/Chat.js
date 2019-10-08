@@ -1,9 +1,7 @@
-//import platform
-import Platform from 'react-native';
 //import react component
 import React, { Component } from 'react';
 //import relevant components from react native
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Platform } from 'react-native';
 // import gifted chat
 import { GiftedChat } from 'react-native-gifted-chat';
 //import keyboardspacer

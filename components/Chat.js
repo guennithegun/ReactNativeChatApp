@@ -6,35 +6,104 @@ import { StyleSheet, Text, View, Platform } from 'react-native';
 import { GiftedChat } from 'react-native-gifted-chat';
 //import keyboardspacer
 import KeyboardSpacer from 'react-native-keyboard-spacer';
+//import firebase
+const firebase = require('firebase');
+require('firebase/firestore');
 
 // create Screen2 (Chat) class
 export default class Chat extends Component {
 
-  state = {
-    messages: []
-  };
+  constructor() {
+    super();
+
+    if (!firebase.apps.length) {
+      firebase.initializeApp({
+        apiKey: "AIzaSyBgLMM4wFJud3a596i1HtjhxOvwVfMfHEM",
+        authDomain: "chatapp-2fd33.firebaseapp.com",
+        databaseURL: "https://chatapp-2fd33.firebaseio.com",
+        projectId: "chatapp-2fd33",
+        storageBucket: "chatapp-2fd33.appspot.com",
+        messagingSenderId: "15865766334",
+        appId: "1:15865766334:web:e3fd5a58edf314a55c99ef"
+      });
+    }
+
+    this.referenceChatMessages = firebase.firestore().collection('messages');
+
+    this.state = {
+      messages: [],
+      uid: 0
+    };
+  }
 
   componentDidMount() {
+    this.authUnsubscribe = firebase.auth().onAuthStateChanged((user) => {
+      if (!user) {
+        firebase.auth().signInAnonymously();
+      }
+
+      this.setState({
+        uid: user.uid,
+        messages: []
+      });
+
+      this.referenceChatMessagesUser = firebase.firestore().collection('messages').where("uid", "==", this.state.uid);
+
+      this.unsubscribeChatMessagesUser = this.referenceChatMessagesUser.onSnapshot(this.onCollectionUpdate);
+    });
+    // this.setState({
+    //   messages: [
+    //     {
+    //       _id: 1,
+    //       text: 'Hello developer',
+    //       createdAt: new Date(),
+    //       user: {
+    //         _id: 2,
+    //         name: 'React Native',
+    //         avatar: 'https://placeimg.com/140/140/any',
+    //       },
+    //     },
+    //     {
+    //       _id: 2,
+    //       text: 'Hi ' + this.props.navigation.state.params.userName + '. Have a nice chat!',
+    //       createdAt: new Date(),
+    //       system: true,
+    //     },
+    //   ],
+    // })
+  }
+
+  componentWillUnmount() {
+    this.unsubscribe();
+  };
+
+  onCollectionUpdate = (querySnapshot) => {
+    const messages = [];
+    // go through each document
+    querySnapshot.forEach((doc) => {
+      // get the QueryDocumentSnapshot's data
+      var data = doc.data();
+      messages.push({
+        _id: data._id,
+        text: data.text,
+        createdAt: data.createdAt.toDate(),
+        user: data.user
+      });
+    });
+
     this.setState({
-      messages: [
-        {
-          _id: 1,
-          text: 'Hello developer',
-          createdAt: new Date(),
-          user: {
-            _id: 2,
-            name: 'React Native',
-            avatar: 'https://placeimg.com/140/140/any',
-          },
-        },
-        {
-          _id: 2,
-          text: 'Hi ' + this.props.navigation.state.params.userName + '. Have a nice chat!',
-          createdAt: new Date(),
-          system: true,
-        },
-      ],
-    })
+      messages,
+    });
+  };
+
+  addMessage() {
+    const message = this.state.messages[0];
+    this.referenceChatMessages.add({
+      _id: message._id,
+      text: message.text,
+      createdAt: message.createdAt,
+      user: message.user
+    });
   }
   //define title in navigation bar
   static navigationOptions = ({ navigation }) => {
@@ -47,7 +116,9 @@ export default class Chat extends Component {
   onSend(messages = []) {
     this.setState(previousState => ({
       messages: GiftedChat.append(previousState.messages, messages),
-    }))
+    }), () => {
+      this.addMessage();
+    });
   }
 
   //render components

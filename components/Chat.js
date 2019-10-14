@@ -47,30 +47,8 @@ export default class Chat extends Component {
         messages: []
       });
 
-      this.referenceChatMessagesUser = firebase.firestore().collection('messages').where("uid", "==", this.state.uid);
-
-      this.unsubscribeChatMessagesUser = this.referenceChatMessagesUser.onSnapshot(this.onCollectionUpdate);
+      this.unsubscribe = this.referenceChatMessages.onSnapshot(this.onCollectionUpdate);
     });
-    // this.setState({
-    //   messages: [
-    //     {
-    //       _id: 1,
-    //       text: 'Hello developer',
-    //       createdAt: new Date(),
-    //       user: {
-    //         _id: 2,
-    //         name: 'React Native',
-    //         avatar: 'https://placeimg.com/140/140/any',
-    //       },
-    //     },
-    //     {
-    //       _id: 2,
-    //       text: 'Hi ' + this.props.navigation.state.params.userName + '. Have a nice chat!',
-    //       createdAt: new Date(),
-    //       system: true,
-    //     },
-    //   ],
-    // })
   }
 
   componentWillUnmount() {
@@ -129,9 +107,9 @@ export default class Chat extends Component {
         <GiftedChat
           messages={this.state.messages}
           onSend={messages => this.onSend(messages)}
-          user={{
-            _id: 1,
-          }}
+          user={
+            this.state.uid
+          }
         />
         {Platform.OS === 'android' ? <KeyboardSpacer /> : null }
       </View>

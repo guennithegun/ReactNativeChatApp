@@ -47,7 +47,7 @@ export default class Chat extends Component {
         messages: []
       });
 
-      this.unsubscribe = this.referenceChatMessages.onSnapshot(this.onCollectionUpdate);
+      this.unsubscribe = this.referenceChatMessages.orderBy('createdAt', 'desc').onSnapshot(this.onCollectionUpdate);
     });
   }
 
@@ -107,9 +107,9 @@ export default class Chat extends Component {
         <GiftedChat
           messages={this.state.messages}
           onSend={messages => this.onSend(messages)}
-          user={
-            this.state.uid
-          }
+          user={{
+            _id: this.state.uid
+          }}
         />
         {Platform.OS === 'android' ? <KeyboardSpacer /> : null }
       </View>

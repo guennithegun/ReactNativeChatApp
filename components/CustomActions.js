@@ -6,7 +6,11 @@ import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 //import permissions and imagepicker
 import * as Permissions from 'expo-permissions';
-import ImagePicker from 'expo';
+import * as ImagePicker from 'expo-image-picker';
+import * as Location from 'expo-location';
+//import firebase
+const firebase = require('firebase');
+require('firebase/firestore');
 
 export default class CustomActions extends React.Component {
   // function to pick images from camera roll
@@ -21,6 +25,25 @@ export default class CustomActions extends React.Component {
         }).catch((error) => console.log(error));
           // canceled process
         if (!result.cancelled) {
+          const imageUrl = await this.uploadImagefetch(result.uri);
+          this.props.onSend({ image: imageUrl });
+        }
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
+
+  //take photo with device
+  takePhoto = async () => {
+    const { status } = await Permissions.askAsync(Permissions.CAMERA, Permissions.CAMERA_ROLL);
+    try {
+      if (status === 'granted') {
+        const result = await ImagePicker.launchCameraAsync({
+          mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        }).catch((error) => console.log(error));
+
+        if (!result.cancelled) {
           const imageUrl = await this.uploadImageFetch(result.uri);
           this.props.onSend({ image: imageUrl });
         }
@@ -28,6 +51,59 @@ export default class CustomActions extends React.Component {
     } catch (error) {
       console.log(error.message);
     }
+  }
+
+  //send location using GPS
+  getLocation = async () => {
+    try {
+      const { status } = await Permissions.askAsync(Permissions.LOCATION);
+      if (status === 'granted') {
+        const result = await Location.getCurrentPositionAsync({}).catch((error) => console.log(error));
+        const longitude = JSON.stringify(result.coords.longitude);
+        const altitude = JSON.stringify(result.coords.latitude);
+        if (result) {
+          this.props.onSend({
+            location: {
+              longitude: result.coords.longitude,
+              latitude: result.coords.latitude,
+            }
+          })
+        }
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
+
+  // upload image to firebase with XMLHttpRequest
+  uploadImageFetch = async(uri) => {
+    const blob = await new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.onload = function() {
+        resolve(xhr.response);
+      };
+      xhr.onerror = function(e) {
+        console.log(e);
+        reject(new TypeError('Network request failed'));
+      };
+      xhr.responseType = 'blob';
+      xhr.open('GET', uri, true);
+      xhr.send(null);
+    });
+
+    const imageNameBefore = uri.split('/');
+    const imageName = imageNameBefore[imageNameBefore.length - 1];
+
+    const ref = firebase
+      .storage()
+      .ref()
+      .child('images/' + imageName);
+
+    const snapshot = await ref.put(blob);
+
+    blob.close();
+
+    return await snapshot.ref.getDownloadURL();
   }
 
   //function that handles communication features
@@ -42,15 +118,14 @@ export default class CustomActions extends React.Component {
       async (buttonIndex) => {
         switch (buttonIndex) {
           case 0:
-          console.log('user wants to pick an image');
-          return this.imagePicker();
-          return;
+            console.log('user wants to pick an image');
+            return this.imagePicker();
           case 1:
-          console.log('user wants to take a photo');
-          return;
+            console.log('user wants to take a photo');
+            return this.takePhoto();
           case 2:
-          console.log('user wants to get their location');
-          default:
+            console.log('user wants to get their location');
+            return this.getLocation();
         }
       },
     );

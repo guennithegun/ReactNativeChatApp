@@ -1,9 +1,9 @@
 //import react component
 import React, { Component } from 'react';
 //import relevant components from react native
-import { StyleSheet, Text, View, Platform, AsyncStorage, NetInfo, InputToolbar } from 'react-native';
+import { StyleSheet, Text, View, Platform, AsyncStorage, NetInfo } from 'react-native';
 // import gifted chat
-import { GiftedChat } from 'react-native-gifted-chat';
+import { GiftedChat, InputToolbar } from 'react-native-gifted-chat';
 //import keyboardspacer
 import KeyboardSpacer from 'react-native-keyboard-spacer';
 //import custom CustomActions
@@ -126,7 +126,8 @@ export default class Chat extends Component {
         text: data.text,
         createdAt: data.createdAt.toDate(),
         user: data.user,
-        image: data.image || null,
+        image: data.image,
+        location: data.location,
       });
     });
 
@@ -155,7 +156,8 @@ export default class Chat extends Component {
       text: message.text,
       createdAt: message.createdAt,
       user: message.user,
-      image: data.image || null
+      image: message.image,
+      location: message.location
     });
   }
   //define title in navigation bar
@@ -221,6 +223,7 @@ export default class Chat extends Component {
       <View style={{ flex:1, backgroundColor: this.props.navigation.state.params.backgroundColor }}>
         <GiftedChat
           messages={this.state.messages}
+          renderInputToolbar={this.renderInputToolbar.bind(this)}
           renderActions={this.renderCustomActions}
           renderCustomView={this.renderCustomView}
           onSend={messages => this.onSend(messages)}

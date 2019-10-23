@@ -25,7 +25,7 @@ export default class CustomActions extends React.Component {
         }).catch((error) => console.log(error));
           // canceled process
         if (!result.cancelled) {
-          const imageUrl = await this.uploadImagefetch(result.uri);
+          const imageUrl = await this.uploadImageFetch(result.uri);
           this.props.onSend({ image: imageUrl });
         }
       }
@@ -134,7 +134,13 @@ export default class CustomActions extends React.Component {
   //render function
   render() {
     return (
-      <TouchableOpacity style={[styles.container]} onPress={this.onActionPress}>
+      <TouchableOpacity
+        accessible={true}
+        accessibilityLabel="More options"
+        accessibilityHint="Let’s you choose to send an image or your geolocation."
+        style={[styles.container]}
+        onPress={this.onActionPress}
+      >
       <View style={[styles.wrapper, this.props.wrapperStyle]}>
       <Text style={[styles.iconText, this.props.iconTextStyle]}>+</Text>
       </View>

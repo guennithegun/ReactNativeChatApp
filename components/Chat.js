@@ -43,7 +43,7 @@ export default class Chat extends Component {
   }
 
   // get messages from asyncStorage
-  async getMessages() {
+  getMessages = async () => {
     let messages = '';
     try {
       messages = await AsyncStorage.getItem('messages') || [];
@@ -56,7 +56,7 @@ export default class Chat extends Component {
   };
 
   // save messages in asyncStorage
-  async saveMessages() {
+  saveMessages = async() => {
     try {
       await AsyncStorage.setItem('messages', JSON.stringify(this.state.messages));
     } catch (error) {
@@ -65,13 +65,13 @@ export default class Chat extends Component {
   };
 
   // delete messages from asyncStorage
-  async deleteMessages() {
+  deleteMessages = async() => {
     try {
       await AsyncStorage.removeItem('messages');
     } catch (error) {
       console.log(error.message);
     }
-  }
+  };
 
   componentDidMount() {
     NetInfo.isConnected.addEventListener(
@@ -122,7 +122,7 @@ export default class Chat extends Component {
     // go through each document
     querySnapshot.forEach((doc) => {
       // get the QueryDocumentSnapshot's data
-      var data = doc.data();
+      let data = doc.data();
       messages.push({
         _id: data._id,
         text: data.text || '',
@@ -151,7 +151,7 @@ export default class Chat extends Component {
     }
   };
 
-  addMessage() {
+  addMessage = () => {
     const message = this.state.messages[0];
     this.referenceChatMessages.add({
       _id: message._id,
@@ -165,12 +165,12 @@ export default class Chat extends Component {
   //define title in navigation bar
   static navigationOptions = ({ navigation }) => {
     return {
-      title: navigation.state.params.userName,
+      title: `${navigation.state.params.userName}'s Chat`,
     };
   };
 
   //appending new message to messages object
-  onSend(messages = []) {
+  onSend = (messages = []) => {
     this.setState(previousState => ({
       messages: GiftedChat.append(previousState.messages, messages),
     }), () => {
@@ -180,7 +180,7 @@ export default class Chat extends Component {
   };
 
   // hide inputbar when offline
-  renderInputToolbar(props) {
+  renderInputToolbar = (props) =>  {
     if (this.state.isConnected == false) {
     } else {
       return(

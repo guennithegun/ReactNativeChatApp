@@ -7,3 +7,5 @@ To run the app fist install Expo. Do this by running
 `npm install expo-cli -g`
 
 in your project folder.
+
+Also download the Expo App to your smartphone. For more details on Expo go [here](https://expo.io).

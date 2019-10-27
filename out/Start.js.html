@@ -1,4 +1,32 @@
-/**
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: Start.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: Start.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
 * @description this is the startscreen, where the user can type his name
 * and choose a background-color for the chatscreen
 * @class Start
@@ -24,45 +52,45 @@ export default class Start extends Component {
   render() {
     return (
 
-        <ImageBackground source={require('../assets/BackgroundImage.png')} style={styles.backgroundImage}>
+        &lt;ImageBackground source={require('../assets/BackgroundImage.png')} style={styles.backgroundImage}>
           {/*App title*/}
-          <Text style={styles.appTitle}>ChatApp</Text>
+          &lt;Text style={styles.appTitle}>ChatApp&lt;/Text>
           {/*login container*/}
-          <View style={styles.logIn}>
+          &lt;View style={styles.logIn}>
             {/*textinput form*/}
-            <TextInput
+            &lt;TextInput
               style={styles.userNameInput}
               onChangeText={(userName) => this.setState({userName})}
               value={this.state.userName}
               placeholder='Your Name...'
             />
             {/*choose backgroundcolor*/}
-            <Text style={styles.choseBackgroundColor}>Choose Background Color:</Text>
+            &lt;Text style={styles.choseBackgroundColor}>Choose Background Color:&lt;/Text>
             {/*wrapper for the different available background colors*/}
-            <View style={styles.backgroundColorWrapper}>
+            &lt;View style={styles.backgroundColorWrapper}>
               {/*black*/}
-              <TouchableOpacity onPress={()=> { this.setState({ backgroundColor: '#090C08' }) }}>
-                <View style={[styles.backgroundColor, styles.black]} >
-                </View>
-              </TouchableOpacity>
+              &lt;TouchableOpacity onPress={()=> { this.setState({ backgroundColor: '#090C08' }) }}>
+                &lt;View style={[styles.backgroundColor, styles.black]} >
+                &lt;/View>
+              &lt;/TouchableOpacity>
               {/*purple*/}
-              <TouchableOpacity onPress={()=> { this.setState({ backgroundColor: '#474056' }) }}>
-                <View style={[styles.backgroundColor, styles.purple]}>
-                </View>
-              </TouchableOpacity>
+              &lt;TouchableOpacity onPress={()=> { this.setState({ backgroundColor: '#474056' }) }}>
+                &lt;View style={[styles.backgroundColor, styles.purple]}>
+                &lt;/View>
+              &lt;/TouchableOpacity>
               {/*gray*/}
-              <TouchableOpacity onPress={()=> { this.setState({ backgroundColor: '#8A95A5' }) }}>
-                <View style={[styles.backgroundColor, styles.gray]}>
-                </View>
-              </TouchableOpacity>
+              &lt;TouchableOpacity onPress={()=> { this.setState({ backgroundColor: '#8A95A5' }) }}>
+                &lt;View style={[styles.backgroundColor, styles.gray]}>
+                &lt;/View>
+              &lt;/TouchableOpacity>
               {/*green*/}
-              <TouchableOpacity onPress={()=> { this.setState({ backgroundColor: '#B9C6AE' }) }}>
-                <View style={[styles.backgroundColor, styles.green]}>
-                </View>
-              </TouchableOpacity>
-            </View>
+              &lt;TouchableOpacity onPress={()=> { this.setState({ backgroundColor: '#B9C6AE' }) }}>
+                &lt;View style={[styles.backgroundColor, styles.green]}>
+                &lt;/View>
+              &lt;/TouchableOpacity>
+            &lt;/View>
             {/*start chatting button --> directs you to conversation screen*/}
-            <Button
+            &lt;Button
               onPress={() => {
                 this.props.navigation.navigate('Chat', { userName: this.state.userName, backgroundColor: this.state.backgroundColor });
               }}
@@ -70,8 +98,8 @@ export default class Start extends Component {
               color = '#757083'
               style={styles.startChatButton}
             />
-          </View>
-        </ImageBackground>
+          &lt;/View>
+        &lt;/ImageBackground>
     );
   }
 }
@@ -149,3 +177,26 @@ const styles = StyleSheet.create({
     backgroundColor: '#B9C6AE',
   },
 });
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Start.html">Start</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Sun Oct 27 2019 03:25:23 GMT+0100 (GMT+01:00)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

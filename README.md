@@ -19,22 +19,22 @@ To start App run `npm start` in your project folder.
 # Necessary Modules and Libraries
 
 ## Modules
-"expo": "^35.0.0",
-"expo-image-picker": "^7.0.0",
-"expo-location": "^7.0.0",
-"expo-permissions": "^7.0.0",
-"firebase": "^7.2.0",
-"prop-types": "^15.7.2",
-"react": "16.8.3",
-"react-dom": "16.8.3",
-"react-native": "https://github.com/expo/react-native/archive/sdk-35.0.0.tar.gz",
-"react-native-gesture-handler": "^1.4.1",
-"react-native-gifted-chat": "^0.11.0",
-"react-native-keyboard-spacer": "^0.4.1",
-"react-native-maps": "^0.26.1",
-"react-native-web": "^0.11.7",
-"react-navigation": "^4.0.10",
-"react-navigation-stack": "^1.9.3"
+* "expo": "^35.0.0",
+* "expo-image-picker": "^7.0.0",
+* "expo-location": "^7.0.0",
+* "expo-permissions": "^7.0.0",
+* "firebase": "^7.2.0",
+* "prop-types": "^15.7.2",
+* "react": "16.8.3",
+* "react-dom": "16.8.3",
+* "react-native": "https://github.com/expo/react-native/archive/sdk-35.0.0.tar.gz",
+* "react-native-gesture-handler": "^1.4.1",
+* "react-native-gifted-chat": "^0.11.0",
+* "react-native-keyboard-spacer": "^0.4.1",
+* "react-native-maps": "^0.26.1",
+* "react-native-web": "^0.11.7",
+* "react-navigation": "^4.0.10",
+* "react-navigation-stack": "^1.9.3"
 
 run `npm install` to install all the modules.
 

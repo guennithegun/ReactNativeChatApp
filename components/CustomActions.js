@@ -30,6 +30,7 @@ require('firebase/firestore');
 export default class CustomActions extends React.Component {
   /**
   * Let the user pick an image from the device's image library
+  * @function imagePicker
   * @async
   */
   imagePicker = async () => {
@@ -54,6 +55,7 @@ export default class CustomActions extends React.Component {
 
   /**
   * Let the user take a photo with device's camera
+  * @function takePhoto
   * @async
   */
   takePhoto = async () => {
@@ -76,6 +78,7 @@ export default class CustomActions extends React.Component {
 
   /**
   * get the location of the user by using GPS
+  * @function getLocation
   * @async
   */
   getLocation = async () => {
@@ -102,6 +105,7 @@ export default class CustomActions extends React.Component {
 
   /**
   * Upload images to firebase
+  * @function uploadImageFetch
   * @async
   */
   uploadImageFetch = async (uri) => {
